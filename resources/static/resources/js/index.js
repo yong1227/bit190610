@@ -5,57 +5,67 @@ var app = (function(){
         //init 과 login_form은 형제관계라 호출 가능
         login_form();
     }
+    
+    //login form만들기
     let login_form = function(){
-        var wrapper = document.querySelector('#wrapper');
+        // wrapper는 DOM 객체
+        let wrapper = document.querySelector('#wrapper');
         wrapper.innerHTML = '<form >'
         +'  ID:<br>'
-        +'  <input type="text" name="id" value="">'
+        +'  <input type="text" name="id" >'
         +'  <br>'
         +'  PASSWORD:<br>'
-        +'  <input type="text" name="password" value="">'
+        +'  <input type="text" name="password" >'
         +'  <br><br>'
-        +'  <input type="submit"  value="로그인" id=btn>'
-        +'  <input type="submit"  value="회원가입" id=btn2>'
+        +'  <input type="button"  value="로그인" id=login_btn>'
+        +'  <input type="button"  value="회원가입" id=join_btn>'
         +'</form> ';
-            
-        //btn은 객체가 된다. 셀렉할 수 있다. id나 class로 셀렉할 수 있으면 컴포넌트가 된다.
-        var btn = document.querySelector('#btn');
-        //회원가입 창
-        var btn2 = document.querySelector('#btn2');
 
-        //로그인 창
-        btn.addEventListener('click',function(){
-            alert('로그인 성공');
-        });
-        
-        //회원가입 창
-        btn2.addEventListener('click',function(){
-            wrapper.innerHTML = '<form action="">'
-            +'  아이디:<br>'
-            +'  <input type="text" name="id" value="">'
-            +'  <br>'
-            +'  비밀번호:<br>'
-            +'  <input type="text" name="password" value="">'
-            +'  <br>'
-            +'  이름:<br>'
-            +'  <input type="text" name="name" value="">'
-            +'  <br>'
-            +'  주민등록번호:<br>'
-            +'  <input type="text" name="ssn" value="">'
-            +'  <br>'
-            +'  휴대폰 번호:<br>'
-            +'  <input type="text" name="phon" value="">'
-            +'  <br><br>'
-            +'  <input type="submit"  value="확인" id=btn3>'
-            +'</form> ';
-        });
-    // 회원가입 확인 창 객체 생성
-        bit3.addEventListener('click',function(){
-            
-        })
-     
+        // 회원가입 버튼을 선택할 수 있게 객체 만들기
+        let join_btn = document.querySelector('#join_btn')
 
+        // 옵저버 버튼/ 회원가입 버튼에 이벤트 걸기
+        join_btn.addEventListener('click',function(){
+            //회원가입 버튼 누르면 회원가입 폼 함수를 실행해줘
+            join_form();
+        });
     }
+
+    //join form 만들기
+    let join_form = function(){
+        // wrapper 영역 전체에 보여질 내용 객체 만들기
+        let wrapper = document.querySelector('#wrapper')
+        wrapper.innerHTML =  '<form >'
+        +'  ID:<br>'
+        +'  <input type="text" name="id" >'
+        +'  <br>'
+        +'  PASSWORD:<br>'
+        +'  <input type="text" name="password" >'
+        +'  <br>'
+        +'  NAME:<br>'
+        +'  <input type="text" name="password" >'
+        +'  <br>'
+        +'  주민등록번호:<br>'
+        +'  <input type="text" name="password" >'
+        +'  <br>'
+        +'  휴대폰 번호:<br>'
+        +'  <input type="text" name="password" >'
+        +'  <br><br>'
+        +'  <input type="button"  value="확인" id="join_ok">'
+        +'  <input type="button"  value="취소" >'
+        +'</form> ';
+
+        //회원가입 확인 버튼 객체 만들기
+        let join_ok = document.querySelector('#join_ok')
+    
+        //확인 창 이벤트 걸기
+        join_ok.addEventListener('click',function(){
+    
+            //로그인 폼으로 가기
+            login_form();
+        });
+    }
+        
     //클로저 : init의 값을 app으로 인식 시키기.
     //json형태로 리턴값 주기
     return {init : init};
