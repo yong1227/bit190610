@@ -1,13 +1,13 @@
 //IIFE 실습
 //()안에 있는 것은 즉시 실행해라.
-var app = (function(){
-    let init = function(){
+var app = (() => {
+    let init = () => {
         //init 과 login_form은 형제관계라 호출 가능
         login_form();
     }
-    
+
     //login form만들기
-    let login_form = function(){
+    let login_form = () => {
         // wrapper는 DOM 객체
         let wrapper = document.querySelector('#wrapper');
         wrapper.innerHTML = '<form >'
@@ -25,14 +25,14 @@ var app = (function(){
         let join_btn = document.querySelector('#join_btn')
 
         // 옵저버 버튼/ 회원가입 버튼에 이벤트 걸기
-        join_btn.addEventListener('click',function(){
+        join_btn.addEventListener('click',() => {
             //회원가입 버튼 누르면 회원가입 폼 함수를 실행해줘
             join_form();
         });
     }
 
     //join form 만들기
-    let join_form = function(){
+    let join_form = () => {
         // wrapper 영역 전체에 보여질 내용 객체 만들기
         let wrapper = document.querySelector('#wrapper')
         wrapper.innerHTML =  '<form >'
@@ -59,7 +59,7 @@ var app = (function(){
         let join_ok = document.querySelector('#join_ok')
     
         //확인 창 이벤트 걸기
-        join_ok.addEventListener('click',function(){
+        join_ok.addEventListener('click',() => {
     
             //로그인 폼으로 가기
             login_form();
