@@ -29,6 +29,33 @@ var app = (() => {
             //회원가입 버튼 누르면 회원가입 폼 함수를 실행해줘
             join_form();
         });
+        let login_btn = document.querySelector('#login_btn');
+        login_btn.addEventListener('click',()=>{
+            alert('로그인 버튼 클릭');
+            count();
+        });
+    }
+
+    let count =() => {
+        //xhr 인스턴스 만들기
+        let xhr = new XMLHttpRequest();
+        method = 'GET';
+        //count url을 사용한다.
+        url='count';
+        //메소드와 url을 열고
+        xhr.open(method,url,true);
+        //함수 데이터가 변환할 준비가 됐다.
+        xhr.onreadystatechange=()=>{
+            // 준비상태가 정상, 정상이면
+            if(xhr.readyState===4 && xhr.status === 200){
+                //수행할 내용
+                alert('성공');
+                let wrapper = document.querySelector('#wrapper');
+                wrapper.innerHTML = ' 총 고객수 : <h1>'+xhr.responseText+'</h1>'
+            }
+        }
+        //준비상태 끝나면 보낸다.
+        xhr.send();
     }
 
     //join form 만들기
