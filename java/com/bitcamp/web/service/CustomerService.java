@@ -22,4 +22,6 @@ public interface CustomerService {
 
     public void deleteCustomer(CustomerDTO customer);
 
+	public int countAll();
+
 }

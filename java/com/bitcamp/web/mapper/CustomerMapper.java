@@ -21,4 +21,6 @@ public interface CustomerMapper {
 
     public void deleteCustomer(CustomerDTO customer);
 
+	public int selectCount();
+
 }
