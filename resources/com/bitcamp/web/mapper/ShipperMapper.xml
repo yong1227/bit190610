@@ -3,21 +3,28 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+
 <mapper namespace="com.bitcamp.web.mapper.ShipperMapper">
 
+  <resultMap id="shipperMap" type="com.bitcamp.web.domain.ShipperDTO">
+    <id property="shipperId" column="SHIPPER_ID"/>
+    <result property="shipperName" column="SHIPPER_NAME"/>
+    <result property="phone" column="PHONE"/>
+  </resultMap>
+  
   <insert id="insertShipper" parameterType="com.bitcamp.web.domain.ShipperDTO">
     insert into SHIPPERS (SHIPPER_NAME,PHONE)
     values (#{shipperName},#{phone})
   </insert>
 
   
-  <select id="selectShippers" resultType="com.bitcamp.web.domain.ShipperDTO">
+  <select id="selectShippers" resultMap="shipperMap">
     select * from SHIPPERS
   </select>
-  <select id="selectShippersByWord" resultType="com.bitcamp.web.domain.ShipperDTO" parameterType="com.bitcamp.web.domain.ShipperDTO">
+  <select id="selectShippersByWord" resultMap="shipperMap" parameterType="com.bitcamp.web.domain.ShipperDTO">
     select * from SHIPPERS where SHIPPER_NAME = #{shipperName}
   </select>
-  <select id="selectShipperByShipperId" resultType="com.bitcamp.web.domain.ShipperDTO" parameterType="string">
+  <select id="selectShipperByShipperId" resultMap="shipperMap" parameterType="string">
     select * from SHIPPERS where SHIPPER_ID = #{value}
   </select>
 
