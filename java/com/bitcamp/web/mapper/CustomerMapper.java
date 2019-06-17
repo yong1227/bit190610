@@ -21,6 +21,9 @@ public interface CustomerMapper {
 
     public void deleteCustomer(CustomerDTO customer);
 
-	public int selectCount();
+    public int selectCount();
+    
+    //메소드값이 mapper.xml의 id값과 동일한 태그로 가서 값이 전달된다.
+    public CustomerDTO login(CustomerDTO customer);
 
 }

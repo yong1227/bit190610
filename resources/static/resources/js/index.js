@@ -12,10 +12,10 @@ var app = (() => {
         let wrapper = document.querySelector('#wrapper');
         wrapper.innerHTML = '<form >'
         +'  ID:<br>'
-        +'  <input type="text" name="id" >'
+        +'  <input type="text" name="customerId" id="customerId">'
         +'  <br>'
         +'  PASSWORD:<br>'
-        +'  <input type="text" name="password" >'
+        +'  <input type="text" name="password" id="password">'
         +'  <br><br>'
         +'  <input type="button"  value="로그인" id=login_btn>'
         +'  <input type="button"  value="회원가입" id=join_btn>'
@@ -32,7 +32,39 @@ var app = (() => {
         let login_btn = document.querySelector('#login_btn');
         login_btn.addEventListener('click',()=>{
             alert('로그인 버튼 클릭');
-            count();
+            // count();
+            // 로그인 input 값 받기
+            id=document.getElementById('customerId').value;
+            pass=document.getElementById('password').value;
+            let xhr = new XMLHttpRequest(),
+                method = 'GET', 
+                url = 'login/'+id+'/'+pass;
+            xhr.open(method, url, true);
+            xhr.onreadystatechange=()=>{
+                if(xhr.readyState===4 && xhr.status ===200){
+                    //responseText는 응답한게 들어온거
+                    let d = xhr.responseText;
+                    if(d==='SUCCESS'){
+                        let wrapper = document.querySelector('#wrapper');
+                        wrapper.innerHTML = '<h1>마이페이지</h1>'
+                    }else{
+                        alert('오류');
+                        let wrapper = document.querySelector('#wrapper');
+                        wrapper.innerHTML = '<form >'
+                        +'  ID:<br>'
+                        +'  <input type="text" name="customerId" id="customerId">'
+                        +'  <br>'
+                        +'  PASSWORD:<br>'
+                        +'  <input type="text" name="password" id="password">'
+                        +'  <br><br>'
+                        +'  <input type="button"  value="로그인" id=login_btn>'
+                        +'  <input type="button"  value="회원가입" id=join_btn>'
+                        +'</form> ';   
+                    }
+                    // alert('ajax 성공'+xhr.responseText);
+                }
+            };
+            xhr.send();
         });
     }
 
@@ -92,7 +124,29 @@ var app = (() => {
             login_form();
         });
     }
-        
+
+    //로그인
+    let login =() => {
+        //xhr 인스턴스 만들기
+        let xhr = new XMLHttpRequest();
+        method = 'GET';
+        //count url을 사용한다.
+        url='login';
+        //메소드와 url을 열고
+        xhr.open(method,url,true);
+        //함수 데이터가 변환할 준비가 됐다.
+        xhr.onreadystatechange=()=>{
+            // 준비상태가 정상, 정상이면
+            if(xhr.readyState===4 && xhr.status === 200){
+                //수행할 내용
+                // alert('성공');
+                let wrapper = document.querySelector('#wrapper');
+                wrapper.innerHTML = ' 로그인 성공 : <h1>'+xhr.responseText+'</h1>'
+            }
+        }
+        //준비상태 끝나면 보낸다.
+        xhr.send();
+    }
     //클로저 : init의 값을 app으로 인식 시키기.
     //json형태로 리턴값 주기
     return {init : init};

@@ -18,7 +18,6 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     CustomerMapper customerMapper;
 
-
     @Override
     public void addCustomer(CustomerDTO customer) {
 
@@ -54,5 +53,12 @@ public class CustomerServiceImpl implements CustomerService {
         return customerMapper.selectCount();
     }
 
-    
+    @Override
+    public CustomerDTO login(CustomerDTO customer) {
+        System.out.println("컨트롤러에서 넘어온 ID: " +customer.getCustomerId() );
+        System.out.println("컨트롤러에서 넘어온 PASSWORD: " + customer.getPassword());
+
+        //mapper에 값을 전달해줘야한다.
+        return customerMapper.login(customer);
+    }    
 }

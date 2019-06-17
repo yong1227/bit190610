@@ -24,4 +24,5 @@ public interface CustomerService {
 
 	public int countAll();
 
+    public CustomerDTO login(CustomerDTO customer);
 }

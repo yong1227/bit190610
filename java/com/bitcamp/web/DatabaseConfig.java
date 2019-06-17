@@ -1,8 +1,6 @@
 package com.bitcamp.web;
 
-import java.io.IOException;
-
-import javax.activation.DataSource;
+import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -25,7 +23,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class DatabaseConfig {
 
     @Bean
-    public SqlSessionFactory name(javax.sql.DataSource dataSource) throws Exception {
+    public SqlSessionFactory name(DataSource dataSource) throws Exception {
         final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource);
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();

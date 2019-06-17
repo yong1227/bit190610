@@ -22,4 +22,6 @@ public class CustomerDTO {
                     address ,
                     postalcode ,
                     photo;
+
+    
 }
