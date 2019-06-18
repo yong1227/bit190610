@@ -7,13 +7,14 @@ var app =  {
         join_btn.addEventListener('click',()=>{
             $wrapper.innerHTML = app.join_form();
             document.getElementById('confirm-btn')
-            .addEventListener('click', ()=>{
+            .addEventListener('click', e=>{
+                e.preventDefault();
                 alert('조인버튼 클릭');
-                join();
+                app.join();
             });
         });
         let login_btn = document.querySelector('#login-btn');
-        login_btn.addEventListener('click',(e)=>{
+        login_btn.addEventListener('click',e=>{
             e.preventDefault();
             alert('로그인 버튼 클릭');
             id = document.getElementById('customerId').value;
@@ -27,21 +28,33 @@ var app =  {
                     }else{
                         $wrapper.innerHTML = app.login_form();
                     }
-                    
                 }
             };
             xhr.send();
         });
     },
     join : ()=>{
-        let xhr = new XMLHttpRequest()
-        xhr.open('POST','customers');
-        xhr.setRequestHeader('Content-type','application/json;charset=UTF-8');
-        xhr.send(JSON.stringify({'customerId':'hong', 'password':'1'}));
+        let xhr = new XMLHttpRequest();
+        let data = {
+            customerId : document.getElementById('customerId').value, 
+            customerName : document.getElementById('customerName').value,
+            password : document.getElementById('password').value
+        };
+        xhr.open('post','customers',true);
+        xhr.setRequestHeader('Content-type','application/json; charset=utf-8')
+        xhr.onload=()=>{
+            if(xhr.readyState===4 && xhr.status===200){
+                let d = xhr.responseText;
+                alert('회원가입 성공'+d.result);
+            }else{
+                alert('회원가입 실패');
+            }
+        }
+        xhr.send(JSON.stringify(data));
     },
     count : ()=>{
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'count', true);
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', 'customers/count', true);
         xhr.onload=()=>{
             if(xhr.readyState===4 && xhr.status === 200){
                 alert('성공');
@@ -49,11 +62,8 @@ var app =  {
                 wrapper.innerHTML = '총 고객수 : <h1>'+xhr.responseText+'</h1>'
             }
         }
-        xhr.send();
     }
 }; 
-
-
 
 app.mypage =()=>{
     return '<h1>마이페이지</h1> ';
@@ -72,14 +82,13 @@ app.login_form=()=>{
     +'</form> ';
 };
 app.join_form=()=>{
-    return 'PW<br>'
-    +'	<input type="password" name="pw"><br>'
+    return '<form>아이디<br>'
+    +'	<input type="text" name="id" id="customerId"><br>'
+    +'	비밀번호<br>'
+    +'	<input type="password" name="password" id="password"><br>'
     +'	이름<br>'
-    +'	<input type="text" name="name"><br>'
-    +'	주민번호<br>'
-    +'	<input type="password" name="ssn"><br>'
-    +'	전화번호<br>'
-    +'	<input type="text" name="phone"><br><br>'
+    +'	<input type="text" name="name" id="customerName"><br>'
+    +'	<br><br>'
     +'	<input id="confirm-btn" type="submit" value="확인">'
     +'	<input id="cancel-btn" type="reset" value="취소">'
     +'</form>';

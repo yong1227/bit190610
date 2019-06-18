@@ -6,7 +6,9 @@ import com.bitcamp.web.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * CustomerController
  */
 @RestController
+@RequestMapping("/customers")
 public class CustomerController {
 
     @Autowired 
@@ -36,5 +39,14 @@ public class CustomerController {
         customer.setCustomerId(id);
         customer.setPassword(pass);
         return customerService.login(customer); 
+    }
+
+    @PostMapping("")
+    public CustomerDTO join(@RequestBody CustomerDTO param){
+        System.out.println("=======post mapping=========");
+        System.out.println(param.getCustomerId());
+        System.out.println(param.getPassword());
+        System.out.println(param.getCustomerName());
+        return customerService.login(customer);
     }
 }
