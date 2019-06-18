@@ -2,6 +2,10 @@
 var app =  {
     $wrapper :  $wrapper = document.querySelector('#wrapper'),
     init : init,
+   
+};
+//customer가 사이트 사용
+var customer = {
     mypage : mypage,
     login_form : login_form,
     join_form : join_form,
@@ -10,15 +14,15 @@ var app =  {
 };
 
     function init (){
-        $wrapper.innerHTML = app.login_form();
+        $wrapper.innerHTML = customer.login_form();
         let join_btn = document.querySelector('#join-btn');
         join_btn.addEventListener('click',()=>{
-            $wrapper.innerHTML = app.join_form();
+            $wrapper.innerHTML = customer.join_form();
             document.getElementById('confirm-btn')
             .addEventListener('click', e=>{
                 e.preventDefault();
                 alert('조인버튼 클릭');
-                app.join();
+                customer.join();
             });
         });
         let login_btn = document.querySelector('#login-btn');
@@ -32,9 +36,9 @@ var app =  {
             xhr.onload=()=>{
                 if(xhr.readyState=== 4 && xhr.status === 200){
                     if(xhr.responseText){
-                        $wrapper.innerHTML = app.mypage();
+                        $wrapper.innerHTML = customer.mypage();
                     }else{
-                        $wrapper.innerHTML = app.login_form();
+                        $wrapper.innerHTML = customer.login_form();
                     }
                 }
             };
@@ -42,20 +46,33 @@ var app =  {
         });
     }
     function join(){
+        customer.join_form();
         let xhr = new XMLHttpRequest();
         let data = {
             customerId : document.getElementById('customerId').value, 
             customerName : document.getElementById('customerName').value,
-            password : document.getElementById('password').value
+            password : document.getElementById('password').value,
+            ssn : document.getElementById('ssn').value, 
+            phone : document.getElementById('phone').value,
+            city : document.getElementById('city').value,
+            address : document.getElementById('address').value, 
+            postalcode : document.getElementById('postalcode').value
         };
         xhr.open('post','customers',true);
         xhr.setRequestHeader('Content-type','application/json; charset=utf-8')
         xhr.onload=()=>{
             if(xhr.readyState===4 && xhr.status===200){
-                let d = xhr.responseText;
-                alert('회원가입 성공'+d.result);
+                let d = JSON.parse(xhr.responseText);
+                if(d.result==='SUCCESS'){
+                    alert('회원가입 성공'+d.result);
+                    //로그인 폼이 들어옴
+                    customer.login_form();
+                }else{
+                    alert('회원가입 실패');
+                }
+
             }else{
-                alert('회원가입 실패');
+                alert('AJAX 실패');
             }
         }
         xhr.send(JSON.stringify(data));
@@ -72,10 +89,13 @@ var app =  {
         }
     }
 
-
 function mypage (){
     return '<h1>마이페이지</h1> ';
 };
+
+function btn(name){
+    return '';
+}
 
 function login_form(){
     return '<form action="/action_page.php">'
@@ -90,12 +110,23 @@ function login_form(){
     +'</form> ';
 };
 function join_form(){
-    return '<form>아이디<br>'
-    +'	<input type="text" name="id" id="customerId"><br>'
+    return '<form>'
+    +'  아이디<br>'
+    +'	<input type="text" name="customerId" id="customerId"><br>'
     +'	비밀번호<br>'
     +'	<input type="password" name="password" id="password"><br>'
     +'	이름<br>'
     +'	<input type="text" name="name" id="customerName"><br>'
+    +'  주민번호<br>'
+    +'	<input type="text" name="ssn" id="ssn"><br>'
+    +'	전화번호<br>'
+    +'	<input type="text" name="phone" id="phone"><br>'
+    +'	도시<br>'
+    +'	<input type="text" name="city" id="city"><br>'
+    +'  주소<br>'
+    +'	<input type="text" name="address" id="address"><br>'
+    +'	우편번호<br>'
+    +'	<input type="text" name="postalcode" id="postalcode"><br>'
     +'	<br><br>'
     +'	<input id="confirm-btn" type="submit" value="확인">'
     +'	<input id="cancel-btn" type="reset" value="취소">'

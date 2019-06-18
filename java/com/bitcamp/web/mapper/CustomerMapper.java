@@ -1,5 +1,6 @@
 package com.bitcamp.web.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.bitcamp.web.domain.CustomerDTO;

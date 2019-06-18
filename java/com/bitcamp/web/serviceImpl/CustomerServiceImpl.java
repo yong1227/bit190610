@@ -1,6 +1,8 @@
 package com.bitcamp.web.serviceImpl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.bitcamp.web.domain.CustomerDTO;
 import com.bitcamp.web.mapper.CustomerMapper;
@@ -20,7 +22,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void addCustomer(CustomerDTO customer) {
-
+        System.out.println("====serviceimp============");
+        customerMapper.insertCustomer(customer);
     }
 
     @Override

@@ -17,8 +17,8 @@
   </resultMap>
 
   <insert id="insertCustomer" parameterType="com.bitcamp.web.domain.CustomerDTO">
-    insert into CUSTOMERS (CUSTOMER_NAME,PASSWORD,SSN,PHONE,CITY,ADDRESS,POSTALCODE,PHOTO)
-    values (#{customerName},#{password},#{ssn},#{phone},#{city},#{address},#{postalcode},#{photo})
+    insert into CUSTOMERS (CUSTOMER_ID,CUSTOMER_NAME,PASSWORD,SSN,PHONE,CITY,ADDRESS,POSTALCODE,PHOTO)
+    values (#{customerId},#{customerName},#{password},#{ssn},#{phone},#{city},#{address},#{postalcode},#{photo})
   </insert>
 
   <select id="selectCustomers" resultMap="customerMap">
