@@ -4,8 +4,11 @@ import com.bitcamp.web.domain.CustomerDTO;
 import com.bitcamp.web.service.CustomerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -27,15 +30,28 @@ public class CustomerController {
         return count+"";
     }
 
-    @RequestMapping("/login/{customerId}/{password}")    
-    public String login(@PathVariable("customerId")String id,
-                                @PathVariable("password")String pass){
-        System.out.println("AJAX로 넘어온 ID : "+id);
-        System.out.println("AJAX로 넘어온 ID : "+id);
 
-        //null일 수가 없다.
+    @GetMapping("/customers/{customerId}")
+    public CustomerDTO login(@PathVariable("customerId")String id,
+                                        @RequestAttribute CustomerDTO param) {
+        System.out.println("컨트롤러 넘어온 pw : "+param.getPassword());
         customerDTO.setCustomerId(id);
-        customerDTO.setPassword(pass);
+        customerDTO.setPassword(param.getPassword());
+        return customerService.login(customerDTO);
+    }
+
+
+
+
+    // @RequestMapping("/login/{customerId}/{password}")    
+    // public  CustomerDTO login(@PathVariable("customerId")String id,
+    //                             @PathVariable("password")String pass){
+    //     System.out.println("AJAX로 넘어온 ID : "+id);
+    //     System.out.println("AJAX로 넘어온 ID : "+id);
+
+    //     //null일 수가 없다.
+    //     customerDTO.setCustomerId(id);
+    //     customerDTO.setPassword(pass);
 
         // return (!customerService
         //             .login(customerDTO)
@@ -43,8 +59,9 @@ public class CustomerController {
         //             .equals("")
         //                 ?"SUCCESS" : "FAIL");
         
-        return (customerService.login(customerDTO)!=null) ? "SUCCESS" : "FAIL";
-        
+        // return (customerService.login(customerDTO)!=null) ? "SUCCESS" : "FAIL";
+        // return customerService.login(customerDTO);
+
         // 서비스까지 값을 보내야 한다. 
         // Component있는 클래스에 있는 것까지 보내야 값이 안 없어진다.
         // 바로 mapper까지 보내면 캡슐화의 의미가 없다.
@@ -77,5 +94,5 @@ public class CustomerController {
         // }
         // return loginResult;
         // return (!name.equals(" ")) ?  "SUCCESS" : "FAIL";
-    }
+    // }
 }
