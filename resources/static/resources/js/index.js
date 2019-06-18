@@ -66,7 +66,7 @@ var customer = {
                 if(d.result==='SUCCESS'){
                     alert('회원가입 성공'+d.result);
                     //로그인 폼이 들어옴
-                    customer.login_form();
+                    app.init();
                 }else{
                     alert('회원가입 실패');
                 }
