@@ -1,7 +1,15 @@
 // use
 var app =  {
     $wrapper :  $wrapper = document.querySelector('#wrapper'),
-    init : ()=>{
+    init : init,
+    mypage : mypage,
+    login_form : login_form,
+    join_form : join_form,
+    join : join,
+    count : count
+};
+
+    function init (){
         $wrapper.innerHTML = app.login_form();
         let join_btn = document.querySelector('#join-btn');
         join_btn.addEventListener('click',()=>{
@@ -32,8 +40,8 @@ var app =  {
             };
             xhr.send();
         });
-    },
-    join : ()=>{
+    }
+    function join(){
         let xhr = new XMLHttpRequest();
         let data = {
             customerId : document.getElementById('customerId').value, 
@@ -51,8 +59,8 @@ var app =  {
             }
         }
         xhr.send(JSON.stringify(data));
-    },
-    count : ()=>{
+    }
+    function count (){
         let xhr = new XMLHttpRequest();
         xhr.open('GET', 'customers/count', true);
         xhr.onload=()=>{
@@ -63,13 +71,13 @@ var app =  {
             }
         }
     }
-}; 
 
-app.mypage =()=>{
+
+function mypage (){
     return '<h1>마이페이지</h1> ';
 };
 
-app.login_form=()=>{
+function login_form(){
     return '<form action="/action_page.php">'
     +'  First name:<br>'
     +'  <input type="text" id="customerId" name="customerId">'
@@ -81,7 +89,7 @@ app.login_form=()=>{
     +'  <input id="join-btn" type="button" value="JOIN">'
     +'</form> ';
 };
-app.join_form=()=>{
+function join_form(){
     return '<form>아이디<br>'
     +'	<input type="text" name="id" id="customerId"><br>'
     +'	비밀번호<br>'
