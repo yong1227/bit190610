@@ -51,11 +51,11 @@
     CITY = #{city},
     ADDRESS = #{address},
     POSTALCODE = #{postalcode},
-    PHOTO = #{photo},
+    PHOTO = #{photo}
     where CUSTOMER_ID = #{customerId}
   </update>
 
   <delete id="deleteCustomer" parameterType="com.bitcamp.web.domain.CustomerDTO">
-    delete from CUSTOMERS where CUSTOMER_ID = #{customerId}
+    delete from CUSTOMERS where CUSTOMER_ID LIKE #{customerId}
   </delete>
 </mapper>
