@@ -118,6 +118,16 @@ function get_value(x){
                 }
                 tbody.innerHTML = rows;
             }
+
+            let blocks = document.createElement('div');
+            blocks.setAttribute('id','blocks');
+            wrapper.appendChild(blocks);
+            let spans = '';
+            i = 1;
+            for(;i<6;i++){
+                spans += "<span style = 'display:inline-block;padding-right:20px;border: 1px solid black;'>"+i+"</span>";
+            }
+            blocks.innerHTML=spans;
         };
         xhr.send();
     }
