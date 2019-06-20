@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.bitcamp.web.common.util.Printer;
 import com.bitcamp.web.domain.CustomerDTO;
 import com.bitcamp.web.service.CustomerService;
 
@@ -26,28 +27,29 @@ import org.springframework.web.bind.annotation.RestController;
  * CustomerController
  */
 @RestController
-@RequestMapping("/customers")
+@RequestMapping("/customers") 
 public class CustomerController {
 
     @Autowired CustomerService customerService;
     @Autowired CustomerDTO customer;
+    @Autowired Printer p;
     
     //전체목록 가져오기
     @GetMapping("")
     public List<CustomerDTO> list() {
         List<CustomerDTO> list = new ArrayList<>();
-        list = customerService.findCustomers();
-        for(CustomerDTO customer : list){
-            System.out.println(customer.getCustomerId()+" : "
-                +customer.getCustomerName()+" : "
-                +customer.getPassword()+" : "
-                +customer.getSsn()+" : "
-                +customer.getPhone()+" : "
-                +customer.getCity()+" : "
-                +customer.getAddress()+" : "
-                +customer.getPostalcode()
-            );
-        }
+        // list = customerService.findCustomers();
+        // for(CustomerDTO customer : list){
+        //     System.out.println(customer.getCustomerId()+" : "
+        //         +customer.getCustomerName()+" : "
+        //         +customer.getPassword()+" : "
+        //         +customer.getSsn()+" : "
+        //         +customer.getPhone()+" : "
+        //         +customer.getCity()+" : "
+        //         +customer.getAddress()+" : "
+        //         +customer.getPostalcode()
+        //     );
+        // }
         return list;
     }
 

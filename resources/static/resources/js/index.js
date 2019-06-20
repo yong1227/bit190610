@@ -14,20 +14,39 @@ var customer = {
     count : count,
     update_form : update_form,
     update : update,
-    remove : remove
+    remove : remove,
+    
 };
 
 var employee ={
     login : login,
     customer_list : customer_list,
-    admin_login : admin_login
-
+    admin_login : admin_login,
+    customer_list_form : customer_list_form
 };
 
 var session = {
     set_value : set_value,
     get_value : get_value
 };
+
+// customerId, 
+// customerName ,ssn,
+// phone ,
+// city ,
+function customer_list_form(){
+    return '<h2>고객 목록</h2>'
+    +'<table id="customer-table">'
+    +'  <tr>'
+    +'    <th>아이디</th>'
+    +'    <th>고객명</th>'
+    +'    <th>주민번호</th>'
+    +'    <th>전화번호</th>'
+    +'    <th>도시</th>'
+    +'  </tr><tbody id="tbody"></tbody>'
+    +'</table>'
+    
+}
 
 function set_value(x){
     sessionStorage.setItem(x.name,x.value);
@@ -85,7 +104,19 @@ function get_value(x){
         xhr.open('GET', 'customers', true);
         xhr.onload=()=>{
             if(xhr.readyState === 4 && xhr.status === 200){
-                let d = JSON.parse(xhr.responseText);
+                // let d = JSON.parse(xhr.responseText);
+
+                let wrapper = document.getElementById('wrapper');
+                wrapper.innerHTML = employee.customer_list_form();
+
+                let tbody = document.getElementById('tbody');
+                
+                let i = 0;
+                let rows = '';
+                for(;i<5;i++){
+                    rows += "<tr><td>"+i+"</td><td>"+i+"</td><td>"+i+"</td><td>"+i+"</td><td>"+i+"</td></tr>";
+                }
+                tbody.innerHTML = rows;
             }
         };
         xhr.send();
