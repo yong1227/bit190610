@@ -22,7 +22,8 @@ var employee ={
     login : login,
     customer_list : customer_list,
     admin_login : admin_login,
-    customer_list_form : customer_list_form
+    customer_list_form : customer_list_form,
+    
 };
 
 var session = {
@@ -90,7 +91,7 @@ function get_value(x){
         if(isAdmin){
             let pass = prompt("관리자 번호를 입력하세요");
             if(pass == 1000){
-                employee.customer_list();        
+                employee.customer_list('1');        
             }else{
                 alert('입력한 번호가 일치하지 않습니다.');
             }
@@ -99,39 +100,77 @@ function get_value(x){
         }
     }
 
-    function customer_list(){
+    function create_customer_row(x){
+        return "<tr><td>"+x.customerId+"</td><td>"+x.customerName+"</td><td>"+x.ssn+"</td><td>"+x.phone+"</td><td>"+x.city
+        +"</td></tr>";
+    }
+
+    function customer_list(x){
         let xhr = new XMLHttpRequest();
-        xhr.open('GET', 'customers', true);
+        xhr.open('GET', 'customers/page/'+x, true);
         xhr.onload=()=>{
             if(xhr.readyState === 4 && xhr.status === 200){
-                // let d = JSON.parse(xhr.responseText);
-
+                let d = JSON.parse(xhr.responseText);
+                alert(d[0].customerName);
                 let wrapper = document.getElementById('wrapper');
                 wrapper.innerHTML = employee.customer_list_form();
 
                 let tbody = document.getElementById('tbody');
                 
                 let i = 0;
-                let rows = '';
-                for(;i<5;i++){
-                    rows += "<tr><td>"+i+"</td><td>"+i+"</td><td>"+i+"</td><td>"+i+"</td><td>"+i+"</td></tr>";
+                d.forEach((v, i) => {
+                    let row = create_customer_row(v)
+                    tbody.innerHTML += row;
+                });
+
+                let blocks = document.createElement('div');
+                blocks.setAttribute('id', 'blocks');
+                wrapper.appendChild(blocks);
+                let spans = document.createElement('div');
+                span.setAttribute('style','display:inline-block');
+                i = 1;
+                for(;i<6; i++){
+                    // spans += "<span style=display:inline-block;padding-right:20px;border: 1px solid black;'>"+i+"</span>";
+                    let span = document.createElement('span')
+                    span.setAttribute('style','display:inline-block;padding-right:20px;border: 1px solid black;cursor:poiner');
+                    span.setAttribute('class','page-num');
+                    span.innerHTML = i;
+                    if(x == span.innerHTML){
+                        span.style.backgroundColor = "red";
+                    }
+                    spans.appendChild(span);
                 }
-                tbody.innerHTML = rows;
-            }
 
-            let blocks = document.createElement('div');
-            blocks.setAttribute('id','blocks');
-            wrapper.appendChild(blocks);
-            let spans = '';
-            i = 1;
-            for(;i<6;i++){
-                spans += "<span style = 'display:inline-block;padding-right:20px;border: 1px solid black;'>"+i+"</span>";
-            }
-            blocks.innerHTML=spans;
-        };
-        xhr.send();
-    }
+                blocks.appendChild(spans);
+                let clss = document.getElementsByClassName('page-num');
+                var spanList = blocks.children;
+                i = 0;
+                for(;i<clss.length;i++){
+                    (function(i){
+                        clss[i].addEventListener('click',function(x){
+                               alert(this.innerText)
+                               customer_list(this.innerText)
+                        })
+                    })(i)
+                }
 
+                if(d.pxy.existPrev){
+                    let prevBlock = document.createElement('span');
+                    prevBlock.setAttribute('style','display:inline-block;padding-right:20px;border: 1px solid black;');
+                    prevBlock.textContent="<";
+                    blocks.prepend(prevBlock);
+                }
+         
+                if(d.pxy.existNext){
+                    let nextBlock = document.createElement('span');
+                    nextBlock.setAttribute('style','display:inline-block;padding-right:20px;border: 1px solid black;');
+                    nextBlock.textContent=">";
+                    blocks.appendChild(nextBlock);
+                }
+        }
+    };
+    xhr.send();
+};
     function join_form(){
         return '<form>'
         +'  아이디<br>'
@@ -277,6 +316,7 @@ function get_value(x){
                                 .wrapper.innerHTML = '총 고객수 : <h1>'+xhr.responseText+'</h1>'
             }
         }
+        xhr.send();
     }
 
     function update_form(d){
@@ -347,4 +387,4 @@ function get_value(x){
         };
         xhr.send();
     }
-
+    

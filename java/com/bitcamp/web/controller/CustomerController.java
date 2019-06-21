@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.bitcamp.web.common.util.PageProxy;
 import com.bitcamp.web.common.util.Printer;
 import com.bitcamp.web.domain.CustomerDTO;
 import com.bitcamp.web.service.CustomerService;
@@ -33,24 +34,26 @@ public class CustomerController {
     @Autowired CustomerService customerService;
     @Autowired CustomerDTO customer;
     @Autowired Printer p;
+    @Autowired PageProxy pxy;
     
+
     //전체목록 가져오기
-    @GetMapping("")
-    public List<CustomerDTO> list() {
-        List<CustomerDTO> list = new ArrayList<>();
-        // list = customerService.findCustomers();
-        // for(CustomerDTO customer : list){
-        //     System.out.println(customer.getCustomerId()+" : "
-        //         +customer.getCustomerName()+" : "
-        //         +customer.getPassword()+" : "
-        //         +customer.getSsn()+" : "
-        //         +customer.getPhone()+" : "
-        //         +customer.getCity()+" : "
-        //         +customer.getAddress()+" : "
-        //         +customer.getPostalcode()
-        //     );
-        // }
-        return list;
+    @GetMapping("/page/{pageNum}")
+    public HashMap<String, Object> list(@PathVariable String pageNum) {
+        //page_num, rowCount, page_size, block_size
+        System.out.println("총 인원 페이징");
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("totalCount", customerService.countAll());
+        map.put("page_num", pageNum);
+        map.put("page_size", "5");
+        map.put("block_size", "5");
+        pxy.execute(map);
+        System.out.println(map.get("totalCount"));
+        System.out.println(map.get("page_num"));
+
+        map.put("list",customerService.findCustomers(pxy));
+        map.put("pxy", pxy);
+        return map;
     }
 
     @GetMapping("/count")

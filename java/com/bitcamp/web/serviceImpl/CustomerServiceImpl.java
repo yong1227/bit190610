@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.bitcamp.web.common.util.PageProxy;
 import com.bitcamp.web.domain.CustomerDTO;
 import com.bitcamp.web.mapper.CustomerMapper;
 import com.bitcamp.web.service.CustomerService;
@@ -43,13 +44,13 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public int updateCustomer(CustomerDTO customer) {
-       int result = customerMapper.updateCustomer(customer);
-       if(result ==1){
-           System.out.println("서비스 수신 성공");
-       }else{
-           System.out.println("서비스 수정실패");
-       }
-       return result;
+        int result = customerMapper.updateCustomer(customer);
+        if (result == 1) {
+            System.out.println("서비스 수신 성공");
+        } else {
+            System.out.println("서비스 수정실패");
+        }
+        return result;
     }
 
     @Override
@@ -64,10 +65,15 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDTO login(CustomerDTO customer) {
-        System.out.println("컨트롤러에서 넘어온 ID: " +customer.getCustomerId() );
+        System.out.println("컨트롤러에서 넘어온 ID: " + customer.getCustomerId());
         System.out.println("컨트롤러에서 넘어온 PASSWORD: " + customer.getPassword());
 
-        //mapper에 값을 전달해줘야한다.
+        // mapper에 값을 전달해줘야한다.
         return customerMapper.login(customer);
-    }    
+    }
+
+    @Override
+    public List<CustomerDTO> findCustomers(PageProxy pxy) {
+        return customerMapper.selectCustomers(pxy);
+    }
 }
